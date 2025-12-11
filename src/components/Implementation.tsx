@@ -279,9 +279,24 @@ console.log(similar); // true`;
   ];
 
   const codeTabs = [
-    { id: "main", label: "Core Algorithm", icon: FileCode2 },
-    { id: "batch", label: "Batch Processing", icon: Layers },
-    { id: "usage", label: "Usage Examples", icon: PlayCircle },
+    {
+      id: "main",
+      label: "Core Algorithm",
+      icon: FileCode2,
+      shortLabel: "Core",
+    },
+    {
+      id: "batch",
+      label: "Batch Processing",
+      icon: Layers,
+      shortLabel: "Batch",
+    },
+    {
+      id: "usage",
+      label: "Usage Examples",
+      icon: PlayCircle,
+      shortLabel: "Usage",
+    },
   ];
 
   const getActiveCode = () => {
@@ -298,19 +313,19 @@ console.log(similar); // true`;
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Header */}
       <div className="animate-fade-in">
-        <div className="flex items-center space-x-3 mb-4">
-          <div className="p-3 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl shadow-lg">
-            <Code className="text-white" size={32} />
+        <div className="flex items-center space-x-2 sm:space-x-3 mb-3 sm:mb-4">
+          <div className="p-2 sm:p-3 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl shadow-lg">
+            <Code className="text-white" size={24} />
           </div>
           <div>
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
               TypeScript Implementation
             </h2>
-            <p className="text-gray-600 text-sm mt-1">
-              Production-ready code with type safety and detailed tracking
+            <p className="text-gray-600 text-xs sm:text-sm mt-1">
+              Production-ready code with type safety
             </p>
           </div>
         </div>
@@ -318,7 +333,7 @@ console.log(similar); // true`;
 
       {/* Code Tabs */}
       <div className="animate-fade-in" style={{ animationDelay: "0.1s" }}>
-        <div className="flex space-x-2 mb-4 border-b-2 border-gray-200">
+        <div className="flex space-x-1 sm:space-x-2 mb-4 border-b-2 border-gray-200 overflow-x-auto pb-1">
           {codeTabs.map((tab) => {
             const Icon = tab.icon;
             return (
@@ -326,7 +341,7 @@ console.log(similar); // true`;
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`
-                  flex items-center space-x-2 px-6 py-3 font-semibold transition-all transform
+                  flex items-center space-x-1.5 sm:space-x-2 px-3 sm:px-4 md:px-6 py-2 sm:py-3 font-semibold transition-all transform whitespace-nowrap text-xs sm:text-sm md:text-base
                   ${
                     activeTab === tab.id
                       ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-t-lg scale-105 shadow-lg"
@@ -334,42 +349,44 @@ console.log(similar); // true`;
                   }
                 `}
               >
-                <Icon size={18} />
-                <span>{tab.label}</span>
+                <Icon size={16} className="sm:w-[18px] sm:h-[18px]" />
+                <span className="hidden sm:inline">{tab.label}</span>
+                <span className="sm:hidden">{tab.shortLabel}</span>
               </button>
             );
           })}
         </div>
 
         {/* Code Display */}
-        <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-8 overflow-x-auto shadow-2xl border-4 border-gray-700">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center space-x-3">
-              <div className="w-3 h-3 rounded-full bg-red-500"></div>
-              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-              <div className="w-3 h-3 rounded-full bg-green-500"></div>
-              <span className="ml-4 text-gray-400 font-mono text-sm">
+        <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 overflow-x-auto shadow-2xl border-2 sm:border-4 border-gray-700">
+          <div className="flex items-center justify-between mb-3 sm:mb-4">
+            <div className="flex items-center space-x-2 sm:space-x-3">
+              <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-red-500"></div>
+              <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-yellow-500"></div>
+              <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-green-500"></div>
+              <span className="ml-2 sm:ml-4 text-gray-400 font-mono text-xs sm:text-sm">
                 soundex.ts
               </span>
             </div>
             <button
               onClick={() => handleCopy(getActiveCode(), activeTab)}
-              className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:scale-105 shadow-lg text-sm font-semibold"
+              className="flex items-center space-x-1.5 sm:space-x-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:scale-105 shadow-lg text-xs sm:text-sm font-semibold"
             >
               {copied === activeTab ? (
                 <>
-                  <Check size={16} />
+                  <Check size={14} className="sm:w-4 sm:h-4" />
                   <span>Copied!</span>
                 </>
               ) : (
                 <>
-                  <Copy size={16} />
-                  <span>Copy Code</span>
+                  <Copy size={14} className="sm:w-4 sm:h-4" />
+                  <span className="hidden sm:inline">Copy Code</span>
+                  <span className="sm:hidden">Copy</span>
                 </>
               )}
             </button>
           </div>
-          <pre className="text-gray-100 font-mono text-sm leading-relaxed">
+          <pre className="text-gray-100 font-mono text-xs sm:text-sm leading-relaxed">
             <code>{getActiveCode()}</code>
           </pre>
         </div>
@@ -377,31 +394,33 @@ console.log(similar); // true`;
 
       {/* Code Features & Performance */}
       <div
-        className="grid md:grid-cols-2 gap-8 animate-fade-in"
+        className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 animate-fade-in"
         style={{ animationDelay: "0.2s" }}
       >
         {/* Code Features */}
         <div>
-          <div className="flex items-center space-x-3 mb-6">
-            <div className="p-2 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg">
-              <Shield className="text-white" size={24} />
+          <div className="flex items-center space-x-2 sm:space-x-3 mb-4 sm:mb-6">
+            <div className="p-1.5 sm:p-2 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg">
+              <Shield className="text-white" size={20} />
             </div>
-            <h3 className="text-2xl font-bold text-gray-900">Code Features</h3>
+            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">
+              Code Features
+            </h3>
           </div>
-          <div className="space-y-3">
+          <div className="space-y-2 sm:space-y-3">
             {codeFeatures.map((feature, index) => {
               const Icon = feature.icon;
               return (
                 <div
                   key={index}
-                  className="flex items-start space-x-4 bg-white rounded-xl p-4 shadow-md border-2 border-gray-200 hover:border-blue-300 transform hover:translate-x-2 transition-all"
+                  className="flex items-start space-x-2 sm:space-x-3 md:space-x-4 bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-md border-2 border-gray-200 hover:border-blue-300 transform hover:translate-x-1 sm:hover:translate-x-2 transition-all"
                 >
                   <div
-                    className={`p-2 ${feature.bgColor} rounded-lg flex-shrink-0`}
+                    className={`p-1.5 sm:p-2 ${feature.bgColor} rounded-lg flex-shrink-0`}
                   >
-                    <Icon className={feature.color} size={20} />
+                    <Icon className={feature.color} size={18} />
                   </div>
-                  <p className="text-gray-700 leading-relaxed">
+                  <p className="text-gray-700 leading-relaxed text-xs sm:text-sm md:text-base">
                     {feature.text}
                   </p>
                 </div>
@@ -412,26 +431,30 @@ console.log(similar); // true`;
 
         {/* Performance */}
         <div>
-          <div className="flex items-center space-x-3 mb-6">
-            <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg">
-              <Zap className="text-white" size={24} />
+          <div className="flex items-center space-x-2 sm:space-x-3 mb-4 sm:mb-6">
+            <div className="p-1.5 sm:p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg">
+              <Zap className="text-white" size={20} />
             </div>
-            <h3 className="text-2xl font-bold text-gray-900">Performance</h3>
+            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">
+              Performance
+            </h3>
           </div>
-          <div className="space-y-3">
+          <div className="space-y-2 sm:space-y-3">
             {performanceMetrics.map((metric, index) => {
               const Icon = metric.icon;
               return (
                 <div
                   key={index}
-                  className="flex items-start space-x-4 bg-white rounded-xl p-4 shadow-md border-2 border-gray-200 hover:border-green-300 transform hover:translate-x-2 transition-all"
+                  className="flex items-start space-x-2 sm:space-x-3 md:space-x-4 bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-md border-2 border-gray-200 hover:border-green-300 transform hover:translate-x-1 sm:hover:translate-x-2 transition-all"
                 >
                   <div
-                    className={`p-2 ${metric.bgColor} rounded-lg flex-shrink-0`}
+                    className={`p-1.5 sm:p-2 ${metric.bgColor} rounded-lg flex-shrink-0`}
                   >
-                    <Icon className={metric.color} size={20} />
+                    <Icon className={metric.color} size={18} />
                   </div>
-                  <p className="text-gray-700 leading-relaxed">{metric.text}</p>
+                  <p className="text-gray-700 leading-relaxed text-xs sm:text-sm md:text-base">
+                    {metric.text}
+                  </p>
                 </div>
               );
             })}
@@ -441,30 +464,33 @@ console.log(similar); // true`;
 
       {/* Testing Considerations */}
       <div className="animate-fade-in" style={{ animationDelay: "0.3s" }}>
-        <div className="bg-gradient-to-br from-purple-50 to-pink-50 border-l-4 border-purple-500 rounded-r-2xl p-8 shadow-lg">
-          <div className="flex items-center space-x-3 mb-6">
-            <div className="p-2 bg-purple-600 rounded-lg">
-              <TestTube2 className="text-white" size={24} />
+        <div className="bg-gradient-to-br from-purple-50 to-pink-50 border-l-4 border-purple-500 rounded-r-xl sm:rounded-r-2xl p-4 sm:p-6 md:p-8 shadow-lg">
+          <div className="flex items-center space-x-2 sm:space-x-3 mb-4 sm:mb-6">
+            <div className="p-1.5 sm:p-2 bg-purple-600 rounded-lg">
+              <TestTube2 className="text-white" size={20} />
             </div>
-            <h3 className="text-2xl font-bold text-gray-900">
+            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">
               Testing Considerations
             </h3>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             {testingConsiderations.map((test, index) => {
               const Icon = test.icon;
               return (
                 <div
                   key={index}
-                  className="flex items-start space-x-4 bg-white rounded-xl p-5 shadow-md transform hover:translate-x-2 transition-transform"
+                  className="flex items-start space-x-2 sm:space-x-3 md:space-x-4 bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 shadow-md transform hover:translate-x-1 sm:hover:translate-x-2 transition-transform"
                 >
-                  <div className="p-2 bg-purple-100 rounded-lg flex-shrink-0">
-                    <Icon className="text-purple-600" size={20} />
+                  <div className="p-1.5 sm:p-2 bg-purple-100 rounded-lg flex-shrink-0">
+                    <Icon className="text-purple-600" size={18} />
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center space-x-2">
-                      <ChevronRight className="text-purple-600" size={18} />
-                      <p className="text-gray-700 leading-relaxed">
+                      <ChevronRight
+                        className="text-purple-600 flex-shrink-0"
+                        size={16}
+                      />
+                      <p className="text-gray-700 leading-relaxed text-xs sm:text-sm md:text-base break-words">
                         {test.text}
                       </p>
                     </div>
@@ -478,17 +504,17 @@ console.log(similar); // true`;
 
       {/* Implementation Quality Badge */}
       <div className="animate-fade-in" style={{ animationDelay: "0.4s" }}>
-        <div className="bg-gradient-to-r from-green-100 to-emerald-100 rounded-2xl p-6 border-2 border-green-300 shadow-lg">
-          <div className="flex items-center justify-between">
-            <div className="flex items-start space-x-4">
-              <div className="p-3 bg-green-600 rounded-xl">
-                <CheckCircle2 className="text-white" size={28} />
+        <div className="bg-gradient-to-r from-green-100 to-emerald-100 rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 border-2 border-green-300 shadow-lg">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-4">
+            <div className="flex items-start space-x-3 sm:space-x-4 flex-1">
+              <div className="p-2 sm:p-3 bg-green-600 rounded-xl flex-shrink-0">
+                <CheckCircle2 className="text-white" size={24} />
               </div>
               <div>
-                <h4 className="text-xl font-bold text-gray-900 mb-2">
+                <h4 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-1 sm:mb-2">
                   Production-Ready Code
                 </h4>
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-gray-700 leading-relaxed text-xs sm:text-sm md:text-base">
                   This implementation follows TypeScript best practices,
                   includes comprehensive error handling, and is optimized for
                   performance. Ready to integrate into your production
@@ -496,9 +522,9 @@ console.log(similar); // true`;
                 </p>
               </div>
             </div>
-            <div className="hidden lg:flex items-center space-x-2 bg-white px-6 py-3 rounded-xl shadow-md">
-              <Shield className="text-green-600" size={24} />
-              <span className="font-bold text-green-700 text-lg">
+            <div className="flex items-center space-x-2 bg-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl shadow-md self-start sm:self-auto">
+              <Shield className="text-green-600" size={20} />
+              <span className="font-bold text-green-700 text-sm sm:text-base md:text-lg">
                 Type Safe
               </span>
             </div>
