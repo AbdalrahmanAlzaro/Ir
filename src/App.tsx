@@ -91,8 +91,20 @@ function App() {
 
             {/* Desktop Info */}
             <div className="hidden lg:block text-right">
-              <p className="text-sm text-gray-600">Course: 151002372</p>
-              <p className="text-sm text-gray-600">The Hashemite University</p>
+              <p className="text-sm text-gray-600">
+                Student Name: عبد الرحمن هاني الزرو
+              </p>
+              <p className="text-sm text-gray-600">University ID: 2038501</p>
+            </div>
+          </div>
+
+          {/* Mobile Student Info - Always Visible */}
+          <div className="lg:hidden mt-3 pt-3 border-t border-gray-200">
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-2.5 border border-blue-200">
+              <p className="text-xs font-semibold text-gray-700">
+                عبد الرحمن هاني الزرو
+              </p>
+              <p className="text-xs text-gray-600">ID: 2038501</p>
             </div>
           </div>
         </div>
@@ -101,6 +113,14 @@ function App() {
         {mobileMenuOpen && (
           <div className="lg:hidden bg-white border-t border-gray-200 shadow-lg animate-fade-in">
             <div className="max-w-7xl mx-auto px-4 py-4">
+              {/* Student Info on Mobile */}
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4 mb-4 border-2 border-blue-200">
+                <p className="text-sm font-semibold text-gray-700 mb-1">
+                  Student: عبد الرحمن هاني الزرو
+                </p>
+                <p className="text-sm text-gray-600">University ID: 2038501</p>
+              </div>
+
               <div className="space-y-2">
                 {tabs.map((tab) => {
                   const Icon = tab.icon;
@@ -197,7 +217,15 @@ function App() {
       {/* Footer */}
       <footer className="bg-white border-t mt-8 sm:mt-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-          <div className="text-center space-y-2">
+          <div className="text-center space-y-3">
+            {/* Student Info - Visible on Mobile */}
+            <div className="lg:hidden bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-3 border-2 border-blue-200">
+              <p className="text-sm font-semibold text-gray-700">
+                عبد الرحمن هاني الزرو
+              </p>
+              <p className="text-xs text-gray-600">University ID: 2038501</p>
+            </div>
+
             <p className="text-xs sm:text-sm text-gray-600">
               © 2024 Information Retrieval Systems Assignment
             </p>
