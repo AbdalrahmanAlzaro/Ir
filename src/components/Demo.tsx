@@ -22,7 +22,6 @@ const Demo = () => {
   const [groups, setGroups] = useState<NameGroup[]>([]);
   const [selectedName, setSelectedName] = useState<string | null>(null);
   const [showTraining, setShowTraining] = useState(false);
-  const [trainingStep, setTrainingStep] = useState(0);
 
   const trainingExamples = [
     {
