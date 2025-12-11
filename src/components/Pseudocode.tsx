@@ -1,8 +1,22 @@
-import { FileText, Copy, Check } from "lucide-react";
+import {
+  FileText,
+  Copy,
+  Check,
+  Zap,
+  Clock,
+  HardDrive,
+  Target,
+  Code2,
+  Database,
+  Hash,
+  AlertCircle,
+  ChevronRight,
+} from "lucide-react";
 import { useState } from "react";
 
 const Pseudocode = () => {
   const [copied, setCopied] = useState(false);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
 
   const pseudocode = `ALGORITHM Soundex(name)
     INPUT: name - A string representing a person's name
@@ -142,188 +156,374 @@ END ALGORITHM`;
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const algorithmSteps = [
+    {
+      id: "step1",
+      number: 1,
+      title: "Clean and Normalize Input",
+      description: "Convert to uppercase and remove non-alphabetic characters",
+      icon: Target,
+      color: "from-blue-500 to-blue-600",
+      bgColor: "from-blue-50 to-blue-100",
+    },
+    {
+      id: "step2",
+      number: 2,
+      title: "Retain First Letter",
+      description: "Keep the first letter of the name as-is",
+      icon: Hash,
+      color: "from-purple-500 to-purple-600",
+      bgColor: "from-purple-50 to-purple-100",
+    },
+    {
+      id: "step3",
+      number: 3,
+      title: "Map Letters to Digits",
+      description: "Convert each letter to its Soundex digit code",
+      icon: Code2,
+      color: "from-green-500 to-green-600",
+      bgColor: "from-green-50 to-green-100",
+    },
+    {
+      id: "step4",
+      number: 4,
+      title: "Remove Duplicates",
+      description: "Skip consecutive duplicate codes",
+      icon: Zap,
+      color: "from-orange-500 to-orange-600",
+      bgColor: "from-orange-50 to-orange-100",
+    },
+    {
+      id: "step5",
+      number: 5,
+      title: "Skip Vowels",
+      description: "Ignore vowels and special letters (H, W, Y)",
+      icon: AlertCircle,
+      color: "from-pink-500 to-pink-600",
+      bgColor: "from-pink-50 to-pink-100",
+    },
+    {
+      id: "step6",
+      number: 6,
+      title: "Normalize to 4 Characters",
+      description: "Pad with zeros or truncate to exactly 4 characters",
+      icon: Database,
+      color: "from-indigo-500 to-indigo-600",
+      bgColor: "from-indigo-50 to-indigo-100",
+    },
+  ];
+
+  const dataStructures = [
+    {
+      name: "String",
+      description: "Store and manipulate the input name and resulting code",
+      icon: FileText,
+      color: "text-blue-600",
+    },
+    {
+      name: "Array",
+      description: "Store the list of names for batch processing",
+      icon: Database,
+      color: "text-purple-600",
+    },
+    {
+      name: "Dictionary/Map",
+      description: "Group names by their Soundex codes",
+      icon: Hash,
+      color: "text-green-600",
+    },
+    {
+      name: "Character",
+      description: "Individual letter processing and mapping",
+      icon: Code2,
+      color: "text-orange-600",
+    },
+  ];
+
+  const implementationNotes = [
+    {
+      text: "The algorithm processes characters sequentially, making it suitable for streaming implementations",
+      icon: ChevronRight,
+    },
+    {
+      text: "Character mapping uses a switch/case structure for O(1) lookup performance",
+      icon: Zap,
+    },
+    {
+      text: "The previousCode variable tracks the last added digit to prevent consecutive duplicates",
+      icon: Target,
+    },
+    {
+      text: "Names with identical codes are guaranteed to sound similar in English",
+      icon: AlertCircle,
+    },
+  ];
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
-      <div>
+      <div className="animate-fade-in">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-3">
-            <FileText className="text-indigo-600" size={28} />
-            <h2 className="text-2xl font-bold text-gray-900">
-              Pseudocode Implementation
-            </h2>
+            <div className="p-3 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl shadow-lg">
+              <FileText className="text-white" size={32} />
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                Pseudocode Implementation
+              </h2>
+              <p className="text-gray-600 text-sm mt-1">
+                Detailed algorithm specification with helper functions
+              </p>
+            </div>
           </div>
           <button
             onClick={handleCopy}
-            className="flex items-center space-x-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all transform hover:scale-105 shadow-lg font-semibold"
           >
             {copied ? (
               <>
-                <Check size={18} />
+                <Check size={20} />
                 <span>Copied!</span>
               </>
             ) : (
               <>
-                <Copy size={18} />
+                <Copy size={20} />
                 <span>Copy Code</span>
               </>
             )}
           </button>
         </div>
-        <p className="text-gray-600">
-          Below is the detailed pseudocode for the Soundex algorithm
-          implementation, including all helper functions and the main program
-          flow.
-        </p>
       </div>
 
       {/* Algorithm Complexity */}
-      <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg">
-        <h3 className="font-semibold text-gray-900 mb-3">
-          Algorithm Complexity
-        </h3>
-        <div className="grid md:grid-cols-3 gap-4">
-          <div>
-            <p className="text-sm text-gray-600 mb-1">Time Complexity</p>
-            <p className="font-mono text-lg font-bold text-blue-600">O(n)</p>
-            <p className="text-sm text-gray-600 mt-1">
-              where n is the length of the name
-            </p>
+      <div className="animate-fade-in" style={{ animationDelay: "0.1s" }}>
+        <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 border-2 border-indigo-200 rounded-2xl p-8 shadow-xl">
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="p-2 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg">
+              <Zap className="text-white" size={24} />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900">
+              Algorithm Complexity Analysis
+            </h3>
           </div>
-          <div>
-            <p className="text-sm text-gray-600 mb-1">Space Complexity</p>
-            <p className="font-mono text-lg font-bold text-green-600">O(1)</p>
-            <p className="text-sm text-gray-600 mt-1">
-              constant space for the code
-            </p>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="bg-white rounded-xl p-6 shadow-md border-2 border-blue-200 transform hover:scale-105 transition-all">
+              <div className="flex items-center space-x-3 mb-3">
+                <div className="p-2 bg-blue-100 rounded-lg">
+                  <Clock className="text-blue-600" size={24} />
+                </div>
+                <p className="text-sm font-semibold text-gray-600 uppercase tracking-wider">
+                  Time Complexity
+                </p>
+              </div>
+              <p className="font-mono text-3xl font-black bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent mb-2">
+                O(n)
+              </p>
+              <p className="text-sm text-gray-600">
+                where n is the length of the name
+              </p>
+            </div>
+            <div className="bg-white rounded-xl p-6 shadow-md border-2 border-green-200 transform hover:scale-105 transition-all">
+              <div className="flex items-center space-x-3 mb-3">
+                <div className="p-2 bg-green-100 rounded-lg">
+                  <HardDrive className="text-green-600" size={24} />
+                </div>
+                <p className="text-sm font-semibold text-gray-600 uppercase tracking-wider">
+                  Space Complexity
+                </p>
+              </div>
+              <p className="font-mono text-3xl font-black bg-gradient-to-r from-green-600 to-green-700 bg-clip-text text-transparent mb-2">
+                O(1)
+              </p>
+              <p className="text-sm text-gray-600">
+                constant space for the code
+              </p>
+            </div>
+            <div className="bg-white rounded-xl p-6 shadow-md border-2 border-purple-200 transform hover:scale-105 transition-all">
+              <div className="flex items-center space-x-3 mb-3">
+                <div className="p-2 bg-purple-100 rounded-lg">
+                  <Target className="text-purple-600" size={24} />
+                </div>
+                <p className="text-sm font-semibold text-gray-600 uppercase tracking-wider">
+                  Output Length
+                </p>
+              </div>
+              <p className="font-mono text-3xl font-black bg-gradient-to-r from-purple-600 to-purple-700 bg-clip-text text-transparent mb-2">
+                Fixed 4
+              </p>
+              <p className="text-sm text-gray-600">always 4 characters</p>
+            </div>
           </div>
-          <div>
-            <p className="text-sm text-gray-600 mb-1">Output Length</p>
-            <p className="font-mono text-lg font-bold text-purple-600">
-              Fixed 4
-            </p>
-            <p className="text-sm text-gray-600 mt-1">always 4 characters</p>
+        </div>
+      </div>
+
+      {/* Algorithm Steps */}
+      <div className="animate-fade-in" style={{ animationDelay: "0.2s" }}>
+        <div className="flex items-center space-x-3 mb-6">
+          <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg">
+            <Target className="text-white" size={24} />
           </div>
+          <h3 className="text-2xl font-bold text-gray-900">Algorithm Steps</h3>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {algorithmSteps.map((step) => {
+            const Icon = step.icon;
+            return (
+              <div
+                key={step.id}
+                onMouseEnter={() => setActiveSection(step.id)}
+                onMouseLeave={() => setActiveSection(null)}
+                className={`
+                  bg-gradient-to-br ${
+                    step.bgColor
+                  } rounded-2xl p-6 border-2 shadow-lg
+                  transform transition-all duration-300 cursor-pointer
+                  ${
+                    activeSection === step.id
+                      ? "scale-110 shadow-2xl border-transparent"
+                      : "scale-100 hover:scale-105 border-gray-200"
+                  }
+                `}
+              >
+                <div className="flex items-start space-x-4 mb-4">
+                  <div
+                    className={`
+                      w-14 h-14 rounded-xl flex items-center justify-center
+                      bg-gradient-to-br ${step.color} shadow-md transform
+                      ${activeSection === step.id ? "rotate-12 scale-110" : ""}
+                      transition-transform duration-300
+                    `}
+                  >
+                    <Icon className="text-white" size={24} />
+                  </div>
+                  <div
+                    className={`
+                      w-10 h-10 rounded-full flex items-center justify-center font-black text-lg
+                      bg-gradient-to-br ${step.color} text-white shadow-md
+                    `}
+                  >
+                    {step.number}
+                  </div>
+                </div>
+                <h4 className="text-xl font-black text-gray-900 mb-2">
+                  {step.title}
+                </h4>
+                <p className="text-gray-700 leading-relaxed">
+                  {step.description}
+                </p>
+              </div>
+            );
+          })}
         </div>
       </div>
 
       {/* Pseudocode Display */}
-      <div className="bg-gray-900 rounded-lg p-6 overflow-x-auto">
-        <pre className="text-gray-100 font-mono text-sm leading-relaxed whitespace-pre">
-          {pseudocode}
-        </pre>
+      <div className="animate-fade-in" style={{ animationDelay: "0.3s" }}>
+        <div className="flex items-center space-x-3 mb-4">
+          <div className="p-2 bg-gradient-to-br from-gray-700 to-gray-900 rounded-lg">
+            <Code2 className="text-white" size={24} />
+          </div>
+          <h3 className="text-2xl font-bold text-gray-900">
+            Complete Pseudocode
+          </h3>
+        </div>
+        <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-8 overflow-x-auto shadow-2xl border-4 border-gray-700">
+          <pre className="text-gray-100 font-mono text-sm leading-relaxed whitespace-pre">
+            {pseudocode}
+          </pre>
+        </div>
       </div>
 
-      {/* Key Points */}
-      <div className="grid md:grid-cols-2 gap-4">
-        <div className="bg-green-50 p-5 rounded-lg border border-green-200">
-          <h3 className="font-semibold text-gray-900 mb-3 flex items-center">
-            <span className="text-green-600 mr-2">✓</span>
-            Algorithm Steps
-          </h3>
-          <ol className="space-y-2 text-sm text-gray-700">
-            <li className="flex items-start">
-              <span className="font-bold mr-2">1.</span>
-              <span>
-                Clean and normalize input (uppercase, remove non-letters)
-              </span>
-            </li>
-            <li className="flex items-start">
-              <span className="font-bold mr-2">2.</span>
-              <span>Retain the first letter of the name</span>
-            </li>
-            <li className="flex items-start">
-              <span className="font-bold mr-2">3.</span>
-              <span>Map each letter to its Soundex digit</span>
-            </li>
-            <li className="flex items-start">
-              <span className="font-bold mr-2">4.</span>
-              <span>Remove consecutive duplicate codes</span>
-            </li>
-            <li className="flex items-start">
-              <span className="font-bold mr-2">5.</span>
-              <span>Skip vowels and special letters (H, W, Y)</span>
-            </li>
-            <li className="flex items-start">
-              <span className="font-bold mr-2">6.</span>
-              <span>Pad or truncate to 4 characters</span>
-            </li>
-          </ol>
-        </div>
-
-        <div className="bg-purple-50 p-5 rounded-lg border border-purple-200">
-          <h3 className="font-semibold text-gray-900 mb-3 flex items-center">
-            <span className="text-purple-600 mr-2">→</span>
+      {/* Data Structures */}
+      <div className="animate-fade-in" style={{ animationDelay: "0.4s" }}>
+        <div className="flex items-center space-x-3 mb-6">
+          <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg">
+            <Database className="text-white" size={24} />
+          </div>
+          <h3 className="text-2xl font-bold text-gray-900">
             Data Structures Used
           </h3>
-          <ul className="space-y-2 text-sm text-gray-700">
-            <li className="flex items-start">
-              <span className="text-purple-600 mr-2">•</span>
-              <span>
-                <strong>String:</strong> Store and manipulate the input name and
-                resulting code
-              </span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-purple-600 mr-2">•</span>
-              <span>
-                <strong>Array:</strong> Store the list of names for batch
-                processing
-              </span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-purple-600 mr-2">•</span>
-              <span>
-                <strong>Dictionary/Map:</strong> Group names by their Soundex
-                codes
-              </span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-purple-600 mr-2">•</span>
-              <span>
-                <strong>Character:</strong> Individual letter processing and
-                mapping
-              </span>
-            </li>
-          </ul>
+        </div>
+        <div className="grid md:grid-cols-2 gap-6">
+          {dataStructures.map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <div
+                key={index}
+                className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-200 hover:border-purple-300 transform hover:scale-105 transition-all"
+              >
+                <div className="flex items-start space-x-4">
+                  <div className="p-3 bg-gray-100 rounded-xl">
+                    <Icon className={item.color} size={28} />
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-xl font-bold text-gray-900 mb-2">
+                      {item.name}
+                    </h4>
+                    <p className="text-gray-700 leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
 
       {/* Implementation Notes */}
-      <div className="bg-yellow-50 border-l-4 border-yellow-500 p-6 rounded-r-lg">
-        <h3 className="font-semibold text-gray-900 mb-3">
-          Implementation Notes
-        </h3>
-        <ul className="space-y-2 text-gray-700">
-          <li className="flex items-start">
-            <span className="text-yellow-600 mr-2">→</span>
-            <span>
-              The algorithm processes characters sequentially, making it
-              suitable for streaming implementations
-            </span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-yellow-600 mr-2">→</span>
-            <span>
-              Character mapping uses a switch/case structure for O(1) lookup
-              performance
-            </span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-yellow-600 mr-2">→</span>
-            <span>
-              The previousCode variable tracks the last added digit to prevent
-              consecutive duplicates
-            </span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-yellow-600 mr-2">→</span>
-            <span>
-              Names with identical codes are guaranteed to sound similar in
-              English
-            </span>
-          </li>
-        </ul>
+      <div className="animate-fade-in" style={{ animationDelay: "0.5s" }}>
+        <div className="bg-gradient-to-br from-yellow-50 to-orange-50 border-l-4 border-yellow-500 rounded-r-2xl p-8 shadow-lg">
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="p-2 bg-yellow-500 rounded-lg">
+              <AlertCircle className="text-white" size={24} />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900">
+              Implementation Notes
+            </h3>
+          </div>
+          <div className="space-y-4">
+            {implementationNotes.map((note, index) => {
+              const Icon = note.icon;
+              return (
+                <div
+                  key={index}
+                  className="flex items-start space-x-4 bg-white rounded-xl p-5 shadow-md transform hover:translate-x-2 transition-transform"
+                >
+                  <div className="p-2 bg-yellow-100 rounded-lg flex-shrink-0">
+                    <Icon className="text-yellow-600" size={20} />
+                  </div>
+                  <p className="text-gray-700 text-lg leading-relaxed">
+                    {note.text}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Footer Info */}
+      <div className="animate-fade-in" style={{ animationDelay: "0.6s" }}>
+        <div className="bg-gradient-to-r from-indigo-100 to-purple-100 rounded-2xl p-6 border-2 border-indigo-200">
+          <div className="flex items-start space-x-4">
+            <div className="p-3 bg-indigo-600 rounded-xl">
+              <FileText className="text-white" size={24} />
+            </div>
+            <div>
+              <h4 className="text-lg font-bold text-gray-900 mb-2">
+                Ready for Implementation
+              </h4>
+              <p className="text-gray-700 leading-relaxed">
+                This pseudocode provides a complete specification of the Soundex
+                algorithm. It can be directly translated into any programming
+                language while maintaining the core logic and efficiency. Use
+                the copy button above to include this in your documentation.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -1,8 +1,22 @@
-import { Code, Copy, Check } from "lucide-react";
+import {
+  Code,
+  Copy,
+  Check,
+  FileCode2,
+  Layers,
+  PlayCircle,
+  Shield,
+  Zap,
+  Package,
+  TestTube2,
+  CheckCircle2,
+  ChevronRight,
+} from "lucide-react";
 import { useState } from "react";
 
 const Implementation = () => {
   const [copied, setCopied] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<string>("main");
 
   const handleCopy = (code: string, id: string) => {
     navigator.clipboard.writeText(code);
@@ -175,203 +189,321 @@ groups.forEach(group => {
 const similar = areSimilar("Smith", "Smythe");
 console.log(similar); // true`;
 
+  const codeFeatures = [
+    {
+      icon: Shield,
+      text: "Full TypeScript type safety with interfaces",
+      color: "text-blue-600",
+      bgColor: "bg-blue-100",
+    },
+    {
+      icon: Layers,
+      text: "Detailed step-by-step execution tracking",
+      color: "text-purple-600",
+      bgColor: "bg-purple-100",
+    },
+    {
+      icon: CheckCircle2,
+      text: "Input validation and error handling",
+      color: "text-green-600",
+      bgColor: "bg-green-100",
+    },
+    {
+      icon: Zap,
+      text: "Efficient batch processing with Map data structure",
+      color: "text-orange-600",
+      bgColor: "bg-orange-100",
+    },
+    {
+      icon: FileCode2,
+      text: "Clean, documented, and maintainable code",
+      color: "text-indigo-600",
+      bgColor: "bg-indigo-100",
+    },
+  ];
+
+  const performanceMetrics = [
+    {
+      icon: Zap,
+      text: "O(n) time complexity for single name",
+      color: "text-green-600",
+      bgColor: "bg-green-100",
+    },
+    {
+      icon: Package,
+      text: "O(1) space for code generation",
+      color: "text-blue-600",
+      bgColor: "bg-blue-100",
+    },
+    {
+      icon: Layers,
+      text: "O(m × n) for batch processing (m names, avg length n)",
+      color: "text-purple-600",
+      bgColor: "bg-purple-100",
+    },
+    {
+      icon: Code,
+      text: "Optimized string operations",
+      color: "text-orange-600",
+      bgColor: "bg-orange-100",
+    },
+    {
+      icon: CheckCircle2,
+      text: "No external dependencies required",
+      color: "text-emerald-600",
+      bgColor: "bg-emerald-100",
+    },
+  ];
+
+  const testingConsiderations = [
+    {
+      icon: TestTube2,
+      text: "Test with empty strings, special characters, and numbers",
+    },
+    {
+      icon: Code,
+      text: 'Verify duplicate code removal with names like "Pfister" (consecutive P and F)',
+    },
+    {
+      icon: CheckCircle2,
+      text: 'Check padding behavior with short names like "Lee" → "L000"',
+    },
+    {
+      icon: Zap,
+      text: "Validate truncation with long names exceeding 4 characters",
+    },
+    {
+      icon: Shield,
+      text: "Test case-insensitivity with mixed case inputs",
+    },
+  ];
+
+  const codeTabs = [
+    { id: "main", label: "Core Algorithm", icon: FileCode2 },
+    { id: "batch", label: "Batch Processing", icon: Layers },
+    { id: "usage", label: "Usage Examples", icon: PlayCircle },
+  ];
+
+  const getActiveCode = () => {
+    switch (activeTab) {
+      case "main":
+        return mainCode;
+      case "batch":
+        return batchCode;
+      case "usage":
+        return usageCode;
+      default:
+        return mainCode;
+    }
+  };
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
-      <div>
+      <div className="animate-fade-in">
         <div className="flex items-center space-x-3 mb-4">
-          <Code className="text-indigo-600" size={28} />
-          <h2 className="text-2xl font-bold text-gray-900">
-            TypeScript Implementation
-          </h2>
+          <div className="p-3 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl shadow-lg">
+            <Code className="text-white" size={32} />
+          </div>
+          <div>
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              TypeScript Implementation
+            </h2>
+            <p className="text-gray-600 text-sm mt-1">
+              Production-ready code with type safety and detailed tracking
+            </p>
+          </div>
         </div>
-        <p className="text-gray-600">
-          Complete, production-ready TypeScript implementation of the Soundex
-          algorithm with type safety and detailed step tracking.
-        </p>
       </div>
 
-      {/* Main Implementation */}
-      <div>
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-xl font-semibold text-gray-900">
-            Core Algorithm
-          </h3>
-          <button
-            onClick={() => handleCopy(mainCode, "main")}
-            className="flex items-center space-x-2 px-3 py-1.5 bg-gray-700 text-white rounded hover:bg-gray-800 transition-colors text-sm"
-          >
-            {copied === "main" ? (
-              <>
-                <Check size={16} />
-                <span>Copied!</span>
-              </>
-            ) : (
-              <>
-                <Copy size={16} />
-                <span>Copy</span>
-              </>
-            )}
-          </button>
+      {/* Code Tabs */}
+      <div className="animate-fade-in" style={{ animationDelay: "0.1s" }}>
+        <div className="flex space-x-2 mb-4 border-b-2 border-gray-200">
+          {codeTabs.map((tab) => {
+            const Icon = tab.icon;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`
+                  flex items-center space-x-2 px-6 py-3 font-semibold transition-all transform
+                  ${
+                    activeTab === tab.id
+                      ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-t-lg scale-105 shadow-lg"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-t-lg"
+                  }
+                `}
+              >
+                <Icon size={18} />
+                <span>{tab.label}</span>
+              </button>
+            );
+          })}
         </div>
-        <div className="bg-gray-900 rounded-lg p-6 overflow-x-auto">
+
+        {/* Code Display */}
+        <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-8 overflow-x-auto shadow-2xl border-4 border-gray-700">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center space-x-3">
+              <div className="w-3 h-3 rounded-full bg-red-500"></div>
+              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+              <div className="w-3 h-3 rounded-full bg-green-500"></div>
+              <span className="ml-4 text-gray-400 font-mono text-sm">
+                soundex.ts
+              </span>
+            </div>
+            <button
+              onClick={() => handleCopy(getActiveCode(), activeTab)}
+              className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:scale-105 shadow-lg text-sm font-semibold"
+            >
+              {copied === activeTab ? (
+                <>
+                  <Check size={16} />
+                  <span>Copied!</span>
+                </>
+              ) : (
+                <>
+                  <Copy size={16} />
+                  <span>Copy Code</span>
+                </>
+              )}
+            </button>
+          </div>
           <pre className="text-gray-100 font-mono text-sm leading-relaxed">
-            <code>{mainCode}</code>
+            <code>{getActiveCode()}</code>
           </pre>
         </div>
       </div>
 
-      {/* Batch Processing */}
-      <div>
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-xl font-semibold text-gray-900">
-            Batch Processing & Grouping
-          </h3>
-          <button
-            onClick={() => handleCopy(batchCode, "batch")}
-            className="flex items-center space-x-2 px-3 py-1.5 bg-gray-700 text-white rounded hover:bg-gray-800 transition-colors text-sm"
-          >
-            {copied === "batch" ? (
-              <>
-                <Check size={16} />
-                <span>Copied!</span>
-              </>
-            ) : (
-              <>
-                <Copy size={16} />
-                <span>Copy</span>
-              </>
-            )}
-          </button>
+      {/* Code Features & Performance */}
+      <div
+        className="grid md:grid-cols-2 gap-8 animate-fade-in"
+        style={{ animationDelay: "0.2s" }}
+      >
+        {/* Code Features */}
+        <div>
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="p-2 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg">
+              <Shield className="text-white" size={24} />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900">Code Features</h3>
+          </div>
+          <div className="space-y-3">
+            {codeFeatures.map((feature, index) => {
+              const Icon = feature.icon;
+              return (
+                <div
+                  key={index}
+                  className="flex items-start space-x-4 bg-white rounded-xl p-4 shadow-md border-2 border-gray-200 hover:border-blue-300 transform hover:translate-x-2 transition-all"
+                >
+                  <div
+                    className={`p-2 ${feature.bgColor} rounded-lg flex-shrink-0`}
+                  >
+                    <Icon className={feature.color} size={20} />
+                  </div>
+                  <p className="text-gray-700 leading-relaxed">
+                    {feature.text}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
         </div>
-        <div className="bg-gray-900 rounded-lg p-6 overflow-x-auto">
-          <pre className="text-gray-100 font-mono text-sm leading-relaxed">
-            <code>{batchCode}</code>
-          </pre>
+
+        {/* Performance */}
+        <div>
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg">
+              <Zap className="text-white" size={24} />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900">Performance</h3>
+          </div>
+          <div className="space-y-3">
+            {performanceMetrics.map((metric, index) => {
+              const Icon = metric.icon;
+              return (
+                <div
+                  key={index}
+                  className="flex items-start space-x-4 bg-white rounded-xl p-4 shadow-md border-2 border-gray-200 hover:border-green-300 transform hover:translate-x-2 transition-all"
+                >
+                  <div
+                    className={`p-2 ${metric.bgColor} rounded-lg flex-shrink-0`}
+                  >
+                    <Icon className={metric.color} size={20} />
+                  </div>
+                  <p className="text-gray-700 leading-relaxed">{metric.text}</p>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
 
-      {/* Usage Examples */}
-      <div>
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-xl font-semibold text-gray-900">
-            Usage Examples
-          </h3>
-          <button
-            onClick={() => handleCopy(usageCode, "usage")}
-            className="flex items-center space-x-2 px-3 py-1.5 bg-gray-700 text-white rounded hover:bg-gray-800 transition-colors text-sm"
-          >
-            {copied === "usage" ? (
-              <>
-                <Check size={16} />
-                <span>Copied!</span>
-              </>
-            ) : (
-              <>
-                <Copy size={16} />
-                <span>Copy</span>
-              </>
-            )}
-          </button>
-        </div>
-        <div className="bg-gray-900 rounded-lg p-6 overflow-x-auto">
-          <pre className="text-gray-100 font-mono text-sm leading-relaxed">
-            <code>{usageCode}</code>
-          </pre>
-        </div>
-      </div>
-
-      {/* Key Features */}
-      <div className="grid md:grid-cols-2 gap-4">
-        <div className="bg-blue-50 p-5 rounded-lg border border-blue-200">
-          <h3 className="font-semibold text-gray-900 mb-3">Code Features</h3>
-          <ul className="space-y-2 text-sm text-gray-700">
-            <li className="flex items-start">
-              <span className="text-blue-600 mr-2">✓</span>
-              <span>Full TypeScript type safety with interfaces</span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-blue-600 mr-2">✓</span>
-              <span>Detailed step-by-step execution tracking</span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-blue-600 mr-2">✓</span>
-              <span>Input validation and error handling</span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-blue-600 mr-2">✓</span>
-              <span>Efficient batch processing with Map data structure</span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-blue-600 mr-2">✓</span>
-              <span>Clean, documented, and maintainable code</span>
-            </li>
-          </ul>
-        </div>
-
-        <div className="bg-green-50 p-5 rounded-lg border border-green-200">
-          <h3 className="font-semibold text-gray-900 mb-3">Performance</h3>
-          <ul className="space-y-2 text-sm text-gray-700">
-            <li className="flex items-start">
-              <span className="text-green-600 mr-2">⚡</span>
-              <span>O(n) time complexity for single name</span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-green-600 mr-2">⚡</span>
-              <span>O(1) space for code generation</span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-green-600 mr-2">⚡</span>
-              <span>O(m × n) for batch processing (m names, avg length n)</span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-green-600 mr-2">⚡</span>
-              <span>Optimized string operations</span>
-            </li>
-            <li className="flex items-start">
-              <span className="text-green-600 mr-2">⚡</span>
-              <span>No external dependencies required</span>
-            </li>
-          </ul>
+      {/* Testing Considerations */}
+      <div className="animate-fade-in" style={{ animationDelay: "0.3s" }}>
+        <div className="bg-gradient-to-br from-purple-50 to-pink-50 border-l-4 border-purple-500 rounded-r-2xl p-8 shadow-lg">
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="p-2 bg-purple-600 rounded-lg">
+              <TestTube2 className="text-white" size={24} />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900">
+              Testing Considerations
+            </h3>
+          </div>
+          <div className="space-y-4">
+            {testingConsiderations.map((test, index) => {
+              const Icon = test.icon;
+              return (
+                <div
+                  key={index}
+                  className="flex items-start space-x-4 bg-white rounded-xl p-5 shadow-md transform hover:translate-x-2 transition-transform"
+                >
+                  <div className="p-2 bg-purple-100 rounded-lg flex-shrink-0">
+                    <Icon className="text-purple-600" size={20} />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2">
+                      <ChevronRight className="text-purple-600" size={18} />
+                      <p className="text-gray-700 leading-relaxed">
+                        {test.text}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
 
-      {/* Testing Notes */}
-      <div className="bg-purple-50 border-l-4 border-purple-500 p-6 rounded-r-lg">
-        <h3 className="font-semibold text-gray-900 mb-3">
-          Testing Considerations
-        </h3>
-        <ul className="space-y-2 text-gray-700">
-          <li className="flex items-start">
-            <span className="text-purple-600 mr-2">→</span>
-            <span>
-              Test with empty strings, special characters, and numbers
-            </span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-purple-600 mr-2">→</span>
-            <span>
-              Verify duplicate code removal with names like "Pfister"
-              (consecutive P and F)
-            </span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-purple-600 mr-2">→</span>
-            <span>
-              Check padding behavior with short names like "Lee" → "L000"
-            </span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-purple-600 mr-2">→</span>
-            <span>
-              Validate truncation with long names exceeding 4 characters
-            </span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-purple-600 mr-2">→</span>
-            <span>Test case-insensitivity with mixed case inputs</span>
-          </li>
-        </ul>
+      {/* Implementation Quality Badge */}
+      <div className="animate-fade-in" style={{ animationDelay: "0.4s" }}>
+        <div className="bg-gradient-to-r from-green-100 to-emerald-100 rounded-2xl p-6 border-2 border-green-300 shadow-lg">
+          <div className="flex items-center justify-between">
+            <div className="flex items-start space-x-4">
+              <div className="p-3 bg-green-600 rounded-xl">
+                <CheckCircle2 className="text-white" size={28} />
+              </div>
+              <div>
+                <h4 className="text-xl font-bold text-gray-900 mb-2">
+                  Production-Ready Code
+                </h4>
+                <p className="text-gray-700 leading-relaxed">
+                  This implementation follows TypeScript best practices,
+                  includes comprehensive error handling, and is optimized for
+                  performance. Ready to integrate into your production
+                  applications.
+                </p>
+              </div>
+            </div>
+            <div className="hidden lg:flex items-center space-x-2 bg-white px-6 py-3 rounded-xl shadow-md">
+              <Shield className="text-green-600" size={24} />
+              <span className="font-bold text-green-700 text-lg">
+                Type Safe
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
